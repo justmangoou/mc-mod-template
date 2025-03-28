@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.architectury.plugin) apply false
     alias(libs.plugins.shadow) apply false
 }
-stonecutter active "1.20.1" /* [SC] DO NOT EDIT */
+stonecutter active "1.21.1" /* [SC] DO NOT EDIT */
 stonecutter.automaticPlatformConstants = true
 
 // Builds every version into `build/libs/{mod.version}/{loader}`
