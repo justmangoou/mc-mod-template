@@ -1,9 +1,9 @@
 @file:Suppress("UnstableApiUsage")
 
 plugins {
-    id("dev.architectury.loom")
-    id("architectury-plugin")
-    id("com.github.johnrengelman.shadow")
+    alias(libs.plugins.architectury.loom)
+    alias(libs.plugins.architectury.plugin)
+    alias(libs.plugins.shadow)
 }
 
 val loader = prop("loom.platform")!!
@@ -50,10 +50,7 @@ dependencies {
         }
     })
     "neoForge"("net.neoforged:neoforge:${common.mod.dep("neoforge_loader")}")
-    "io.github.llamalad7:mixinextras-neoforge:${mod.dep("mixin_extras")}".let {
-        implementation(it)
-        include(it)
-    }
+    modImplementation("dev.architectury:architectury-neoforge:${common.mod.dep("architectury")}")
 
     commonBundle(project(common.path, "namedElements")) { isTransitive = false }
     shadowBundle(project(common.path, "transformProductionNeoForge")) { isTransitive = false }
@@ -103,6 +100,9 @@ tasks.processResources {
         "id" to mod.id,
         "name" to mod.name,
         "version" to mod.version,
+        "description" to mod.description,
+        "authors" to mod.authors,
+        "license" to mod.license,
         "minecraft" to common.mod.prop("mc_dep_forgelike")
     )
 }

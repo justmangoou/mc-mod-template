@@ -1,6 +1,7 @@
 plugins {
-    id("dev.architectury.loom")
-    id("architectury-plugin")
+    alias(libs.plugins.architectury.loom)
+    alias(libs.plugins.architectury.plugin)
+    alias(libs.plugins.blossom)
 }
 
 val minecraft = stonecutter.current.version
@@ -18,11 +19,7 @@ architectury.common(stonecutter.tree.branches.mapNotNull {
 dependencies {
     minecraft("com.mojang:minecraft:$minecraft")
     mappings("net.fabricmc:yarn:$minecraft+build.${mod.dep("yarn_build")}:v2")
-    modImplementation("net.fabricmc:fabric-loader:${mod.dep("fabric_loader")}")
-    "io.github.llamalad7:mixinextras-common:${mod.dep("mixin_extras")}".let {
-        annotationProcessor(it)
-        implementation(it)
-    }
+    modImplementation(libs.fabric.loader)
 }
 
 loom {
@@ -35,10 +32,20 @@ loom {
     }
 }
 
+blossom {
+    replaceToken("{{ MOD_ID }}", mod.id)
+    replaceToken("{{ MOD_NAME }}", mod.name)
+    replaceToken("{{ MOD_VERSION }}", mod.version)
+}
+
 java {
     withSourcesJar()
-    val java = if (stonecutter.eval(minecraft, ">=1.20.5"))
-        JavaVersion.VERSION_21 else JavaVersion.VERSION_17
+
+    val java = if (stonecutter.eval(minecraft, ">=1.20.5")) JavaVersion.VERSION_21
+        else if (stonecutter.eval(minecraft, ">=1.18")) JavaVersion.VERSION_17
+        else if (stonecutter.eval(minecraft, ">=1.17")) JavaVersion.VERSION_16
+        else if (stonecutter.eval(minecraft, ">=1.16")) JavaVersion.VERSION_11
+        else JavaVersion.VERSION_1_8
     targetCompatibility = java
     sourceCompatibility = java
 }

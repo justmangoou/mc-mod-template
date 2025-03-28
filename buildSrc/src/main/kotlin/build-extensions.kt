@@ -28,6 +28,10 @@ value class ModData(private val project: Project) {
     val version: String get() = requireNotNull(project.prop("mod.version")) { "Missing 'mod.version'" }
     val group: String get() = requireNotNull(project.prop("mod.group")) { "Missing 'mod.group'" }
 
+    val description: String get() = requireNotNull(project.prop("mod.description")) { "Missing 'mod.description'" }
+    val authors: List<String> get() = project.prop("mod.authors")?.split(",")?.map { it.trim() } ?: emptyList()
+    val license: String get() = requireNotNull(project.prop("mod.license")) { "Missing 'mod.license'" }
+
     fun prop(key: String) = requireNotNull(project.prop("mod.$key")) { "Missing 'mod.$key'" }
     fun dep(key: String) = requireNotNull(project.prop("deps.$key")) { "Missing 'deps.$key'" }
 }

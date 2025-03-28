@@ -1,8 +1,9 @@
 plugins {
     id("dev.kikugie.stonecutter")
-    id("dev.architectury.loom") version "1.7-SNAPSHOT" apply false
-    id("architectury-plugin") version "3.4-SNAPSHOT" apply false
-    id("com.github.johnrengelman.shadow") version "8.1.1" apply false
+
+    alias(libs.plugins.architectury.loom) apply false
+    alias(libs.plugins.architectury.plugin) apply false
+    alias(libs.plugins.shadow) apply false
 }
 stonecutter active "1.20.1" /* [SC] DO NOT EDIT */
 stonecutter.automaticPlatformConstants = true

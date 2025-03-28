@@ -1,9 +1,9 @@
 @file:Suppress("UnstableApiUsage")
 
 plugins {
-    id("dev.architectury.loom")
-    id("architectury-plugin")
-    id("com.github.johnrengelman.shadow")
+    alias(libs.plugins.architectury.loom)
+    alias(libs.plugins.architectury.plugin)
+    alias(libs.plugins.shadow)
 }
 
 val loader = prop("loom.platform")!!
@@ -45,6 +45,7 @@ dependencies {
     minecraft("com.mojang:minecraft:$minecraft")
     mappings("net.fabricmc:yarn:$minecraft+build.${common.mod.dep("yarn_build")}:v2")
     "forge"("net.minecraftforge:forge:$minecraft-${common.mod.dep("forge_loader")}")
+    modImplementation("dev.architectury:architectury-forge:${common.mod.dep("architectury")}")
     "io.github.llamalad7:mixinextras-forge:${mod.dep("mixin_extras")}".let {
         implementation(it)
         include(it)
@@ -104,6 +105,9 @@ tasks.processResources {
         "id" to mod.id,
         "name" to mod.name,
         "version" to mod.version,
+        "description" to mod.description,
+        "authors" to mod.authors,
+        "license" to mod.license,
         "minecraft" to common.mod.prop("mc_dep_forgelike")
     )
 }

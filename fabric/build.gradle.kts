@@ -1,10 +1,9 @@
 @file:Suppress("UnstableApiUsage")
 
-
 plugins {
-    id("dev.architectury.loom")
-    id("architectury-plugin")
-    id("com.github.johnrengelman.shadow")
+    alias(libs.plugins.architectury.loom)
+    alias(libs.plugins.architectury.plugin)
+    alias(libs.plugins.shadow)
 }
 
 val loader = prop("loom.platform")!!
@@ -41,7 +40,9 @@ configurations {
 dependencies {
     minecraft("com.mojang:minecraft:$minecraft")
     mappings("net.fabricmc:yarn:$minecraft+build.${common.mod.dep("yarn_build")}:v2")
-    modImplementation("net.fabricmc:fabric-loader:${mod.dep("fabric_loader")}")
+    modImplementation(libs.fabric.loader)
+    modImplementation("net.fabricmc.fabric-api:fabric-api:${common.mod.dep("fabric")}+${minecraft}")
+    modImplementation("dev.architectury:architectury-fabric:${common.mod.dep("architectury")}")
 
     commonBundle(project(common.path, "namedElements")) { isTransitive = false }
     shadowBundle(project(common.path, "transformProductionFabric")) { isTransitive = false }
@@ -63,8 +64,12 @@ loom {
 
 java {
     withSourcesJar()
-    val java = if (stonecutter.eval(minecraft, ">=1.20.5"))
-        JavaVersion.VERSION_21 else JavaVersion.VERSION_17
+
+    val java = if (stonecutter.eval(minecraft, ">=1.20.5")) JavaVersion.VERSION_21
+        else if (stonecutter.eval(minecraft, ">=1.18")) JavaVersion.VERSION_17
+        else if (stonecutter.eval(minecraft, ">=1.17")) JavaVersion.VERSION_16
+        else if (stonecutter.eval(minecraft, ">=1.16")) JavaVersion.VERSION_11
+        else JavaVersion.VERSION_1_8
     targetCompatibility = java
     sourceCompatibility = java
 }
@@ -90,6 +95,8 @@ tasks.processResources {
         "id" to mod.id,
         "name" to mod.name,
         "version" to mod.version,
+        "description" to mod.description,
+        "authors" to mod.authors.map { "\"$it\"" },
         "minecraft" to common.mod.prop("mc_dep_fabric")
     )
 }

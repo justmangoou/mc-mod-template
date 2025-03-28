@@ -1,7 +1,7 @@
-package com.example.template.fabric;
+package me.justmangoou.template.fabric;
 
 import net.fabricmc.api.ModInitializer;
-import com.example.template.TemplateModCommon;
+import me.justmangoou.template.TemplateModCommon;
 
 public class TemplateModFabric implements ModInitializer {
 	@Override

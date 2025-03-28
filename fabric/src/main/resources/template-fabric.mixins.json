@@ -1,8 +1,9 @@
 {
   "required": true,
-  "package": "com.example.template.fabric.mixin",
+  "package": "me.justmangoou.template.fabric.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "ExampleFabricMixin"
   ],
   "injectors": {
     "defaultRequire": 1

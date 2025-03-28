@@ -1,11 +1,11 @@
 package com.example.template.forge;
 
-import com.example.template.TemplateModCommon;
+import me.justmangoou.template.TemplateModCommon;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod("template")
-public class TemplateModForge {
-	public TemplateModForge() {
+public class TemplateModNeoforge {
+	public TemplateModNeoforge() {
 		TemplateModCommon.init();
 	}
 }
